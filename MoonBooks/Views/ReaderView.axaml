@@ -1,0 +1,227 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:MoonBooks.ViewModels"
+             xmlns:model="using:MoonBooks.Models"
+             mc:Ignorable="d"
+             d:DesignWidth="1440"
+             d:DesignHeight="852"
+             x:Class="MoonBooks.Views.ReaderView"
+             x:Name="ReaderRoot"
+             x:DataType="vm:MainViewModel"
+             x:CompileBindings="False">
+
+    <Grid RowDefinitions="62,*">
+        <Border Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="Auto,*,Auto" Margin="18,0">
+                <StackPanel Orientation="Horizontal" Spacing="7" VerticalAlignment="Center">
+                    <Button Classes="icon" Content="←" ToolTip.Tip="Вернуться в библиотеку"
+                            Command="{Binding GoToLibraryCommand}" />
+                    <Button Classes="icon" Content="☰" ToolTip.Tip="Оглавление"
+                            Command="{Binding ToggleTocCommand}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding SelectedBook.Title}" FontWeight="SemiBold"
+                               FontSize="14" HorizontalAlignment="Center" />
+                    <TextBlock Text="{Binding CurrentChapter.Title}" FontSize="10"
+                               Foreground="{DynamicResource MutedInkBrush}" HorizontalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                    <Button Classes="icon" Content="−" Command="{Binding DecreaseFontCommand}"
+                            ToolTip.Tip="Уменьшить шрифт" />
+                    <Border VerticalAlignment="Center" MinWidth="36">
+                        <TextBlock Text="{Binding ReaderFontSize, StringFormat={}{0:0}}" FontSize="12"
+                                   TextAlignment="Center" />
+                    </Border>
+                    <Button Classes="icon" Content="＋" Command="{Binding IncreaseFontCommand}"
+                            ToolTip.Tip="Увеличить шрифт" />
+                    <Button Classes="icon" Content="⚙" Margin="8,0,0,0"
+                            ToolTip.Tip="Настройки чтения" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,264">
+            <Border Grid.Column="0" Width="252" IsVisible="{Binding IsTocOpen}"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="0,0,1,0">
+                <Grid RowDefinitions="Auto,*,Auto" Margin="18,22">
+                    <StackPanel Margin="7,0,7,20">
+                        <TextBlock Text="Оглавление" FontSize="18" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding SelectedBook.Author}" FontSize="11" Margin="0,4,0,0"
+                                   Foreground="{DynamicResource MutedInkBrush}" />
+                    </StackPanel>
+
+                    <ScrollViewer Grid.Row="1">
+                        <ItemsControl ItemsSource="{Binding Chapters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="model:BookChapter">
+                                    <Button Classes="nav" Margin="0,2"
+                                            Command="{Binding DataContext.SelectChapterCommand, ElementName=ReaderRoot}"
+                                            CommandParameter="{Binding}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Title}" FontSize="13" />
+                                            <TextBlock Text="{Binding Eyebrow}" FontSize="9" Margin="0,3,0,0"
+                                                       Foreground="{DynamicResource MutedInkBrush}"
+                                                       TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <Border Grid.Row="2" Background="{DynamicResource SurfaceMutedBrush}"
+                            CornerRadius="13" Padding="13" Margin="4,16,4,0">
+                        <StackPanel Spacing="7">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Прочитано" FontSize="10"
+                                           Foreground="{DynamicResource MutedInkBrush}" />
+                                <TextBlock Grid.Column="1" Text="{Binding SelectedBook.ProgressLabel}"
+                                           FontSize="10" FontWeight="SemiBold" />
+                            </Grid>
+                            <ProgressBar Minimum="0" Maximum="1" Value="{Binding SelectedBook.Progress}"
+                                         Height="4" Foreground="{DynamicResource AccentBrush}" />
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Column="1" Background="{Binding ReaderCanvasBackground}">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                    <Border MaxWidth="{Binding ReaderWidth}" MinHeight="760"
+                            Background="{Binding ReaderPageBackground}"
+                            Margin="48,34,48,72" Padding="70,66,70,76"
+                            CornerRadius="3" HorizontalAlignment="Center">
+                        <StackPanel>
+                            <TextBlock Text="{Binding CurrentChapter.Eyebrow}" FontSize="10"
+                                       FontWeight="Bold" LetterSpacing="1.7"
+                                       Foreground="{Binding ReaderMutedColor}"
+                                       HorizontalAlignment="Center" />
+                            <TextBlock Text="{Binding CurrentChapter.Title}" FontFamily="Georgia"
+                                       FontSize="36" FontWeight="Normal" Margin="0,14,0,12"
+                                       Foreground="{Binding ReaderTextColor}"
+                                       TextAlignment="Center" />
+                            <Border Width="42" Height="1" Background="{DynamicResource WarmBrush}"
+                                    Margin="0,7,0,34" HorizontalAlignment="Center" />
+
+                            <ItemsControl ItemsSource="{Binding CurrentChapter.Paragraphs}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" FontFamily="Georgia"
+                                                   FontSize="{Binding DataContext.ReaderFontSize, ElementName=ReaderRoot}"
+                                                   LineHeight="{Binding DataContext.ReaderLineHeight, ElementName=ReaderRoot}"
+                                                   Foreground="{Binding DataContext.ReaderTextColor, ElementName=ReaderRoot}"
+                                                   TextWrapping="Wrap" TextAlignment="Justify"
+                                                   Margin="0,0,0,22" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <Border Height="1" Background="{Binding ReaderMutedColor}" Opacity=".22"
+                                    Margin="0,24,0,25" />
+                            <Grid ColumnDefinitions="*,Auto,*">
+                                <Button Content="←  Предыдущая" HorizontalAlignment="Left"
+                                        Command="{Binding PreviousChapterCommand}" />
+                                <TextBlock Grid.Column="1" Text="{Binding ChapterPosition}"
+                                           VerticalAlignment="Center" FontSize="11"
+                                           Foreground="{Binding ReaderMutedColor}" />
+                                <Button Grid.Column="2" Content="Следующая  →" HorizontalAlignment="Right"
+                                        Command="{Binding NextChapterCommand}" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </ScrollViewer>
+            </Grid>
+
+            <Border Grid.Column="2" Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="1,0,0,0">
+                <ScrollViewer>
+                    <StackPanel Margin="22,24" Spacing="25">
+                        <StackPanel>
+                            <TextBlock Text="Настройки чтения" FontSize="18" FontWeight="SemiBold" />
+                            <TextBlock Text="Подстройте страницу под себя" FontSize="10" Margin="0,4,0,0"
+                                       Foreground="{DynamicResource MutedInkBrush}" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="ТЕМА" FontSize="9" FontWeight="Bold" LetterSpacing="1.3"
+                                       Foreground="{DynamicResource MutedInkBrush}" />
+                            <UniformGrid Columns="3">
+                                <Button Classes="chip" Content="☀" Margin="0,0,5,0"
+                                        Command="{Binding SetReaderThemeCommand}" CommandParameter="Светлая"
+                                        ToolTip.Tip="Светлая" />
+                                <Button Classes="chip" Content="◐" Margin="0,0,5,0"
+                                        Command="{Binding SetReaderThemeCommand}" CommandParameter="Сепия"
+                                        ToolTip.Tip="Сепия" />
+                                <Button Classes="chip" Content="☾"
+                                        Command="{Binding SetReaderThemeCommand}" CommandParameter="Ночь"
+                                        ToolTip.Tip="Ночь" />
+                            </UniformGrid>
+                            <TextBlock Text="{Binding ReaderTheme}" FontSize="11"
+                                       Foreground="{DynamicResource MutedInkBrush}" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="РАЗМЕР ШРИФТА" FontSize="9" FontWeight="Bold" LetterSpacing="1.1"
+                                           Foreground="{DynamicResource MutedInkBrush}" VerticalAlignment="Center" />
+                                <TextBlock Grid.Column="1" Text="{Binding ReaderFontSize, StringFormat={}{0:0} pt}"
+                                           FontSize="10" Foreground="{DynamicResource MutedInkBrush}" />
+                            </Grid>
+                            <Grid ColumnDefinitions="*,8,*" Height="40">
+                                <Button Grid.Column="0" Classes="chip" Content="A−"
+                                        Command="{Binding DecreaseFontCommand}" />
+                                <Button Grid.Column="2" Classes="chip" Content="A＋"
+                                        Command="{Binding IncreaseFontCommand}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="ИНТЕРВАЛ" FontSize="9" FontWeight="Bold" LetterSpacing="1.2"
+                                       Foreground="{DynamicResource MutedInkBrush}" />
+                            <Grid ColumnDefinitions="*,8,*" Height="40">
+                                <Button Grid.Column="0" Classes="chip" Content="Плотнее"
+                                        Command="{Binding DecreaseLineHeightCommand}" />
+                                <Button Grid.Column="2" Classes="chip" Content="Свободнее"
+                                        Command="{Binding IncreaseLineHeightCommand}" />
+                            </Grid>
+                        </StackPanel>
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="ШИРИНА СТРАНИЦЫ" FontSize="9" FontWeight="Bold" LetterSpacing="1.1"
+                                       Foreground="{DynamicResource MutedInkBrush}" />
+                            <Button Classes="chip" Content="Переключить ширину"
+                                    Command="{Binding ToggleReaderWidthCommand}" />
+                        </StackPanel>
+
+                        <Border Height="1" Background="{DynamicResource HairlineBrush}" />
+
+                        <StackPanel Spacing="6">
+                            <Button Classes="nav">
+                                <Grid ColumnDefinitions="28,*">
+                                    <TextBlock Text="♧" FontSize="16" />
+                                    <TextBlock Grid.Column="1" Text="Добавить закладку" />
+                                </Grid>
+                            </Button>
+                            <Button Classes="nav">
+                                <Grid ColumnDefinitions="28,*">
+                                    <TextBlock Text="Aa" FontSize="12" />
+                                    <TextBlock Grid.Column="1" Text="Поиск по книге" />
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+
+                        <TextBlock Text="Настройки хранятся только в памяти прототипа"
+                                   FontSize="9" TextWrapping="Wrap"
+                                   Foreground="{DynamicResource MutedInkBrush}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

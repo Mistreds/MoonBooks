@@ -1,22 +1,55 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:MoonBooks.ViewModels"
+        xmlns:views="using:MoonBooks.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="900"
         x:Class="MoonBooks.Views.MainWindow"
         x:DataType="vm:MainViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="MoonBooks">
+        Title="MoonBooks"
+        Width="1440"
+        Height="900"
+        MinWidth="1040"
+        MinHeight="680"
+        Background="{DynamicResource CanvasBrush}"
+        WindowDecorations="None">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainViewModel />
     </Design.DataContext>
 
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
+    <Grid RowDefinitions="48,*">
+        <Border Grid.Row="0"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource HairlineBrush}"
+                BorderThickness="0,0,0,1"
+                PointerPressed="TitleBar_OnPointerPressed">
+            <Grid ColumnDefinitions="*,Auto" Margin="18,0,8,0">
+                <StackPanel Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+                    <Border Width="27" Height="27" CornerRadius="8" Background="{DynamicResource AccentBrush}">
+                        <TextBlock Text="☾" Foreground="White" FontSize="18"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <TextBlock Text="MOONBOOKS" FontSize="12" FontWeight="Bold"
+                               LetterSpacing="1.8" VerticalAlignment="Center" />
+                </StackPanel>
 
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="2">
+                    <Button Classes="icon" Width="42" Height="36" CornerRadius="8"
+                            Content="—" FontSize="14" Click="Minimize_OnClick" />
+                    <Button Classes="icon" Width="42" Height="36" CornerRadius="8"
+                            Content="□" FontSize="15" Click="Maximize_OnClick" />
+                    <Button Classes="icon" Width="42" Height="36" CornerRadius="8"
+                            Content="×" FontSize="20" Click="Close_OnClick" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="1">
+            <views:LibraryView IsVisible="{Binding IsLibraryOpen}" />
+            <views:ReaderView IsVisible="{Binding IsReaderOpen}" />
+        </Grid>
+    </Grid>
 </Window>
