@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="CanvasBrush" Color="#F4F3F1" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFEFC" />
+    <SolidColorBrush x:Key="SurfaceMutedBrush" Color="#ECE8E1" />
+    <SolidColorBrush x:Key="InkBrush" Color="#242722" />
+    <SolidColorBrush x:Key="InkMutedBrush" Color="#74776F" />
+    <SolidColorBrush x:Key="MutedInkBrush" Color="#74776F" />
+    <SolidColorBrush x:Key="HairlineBrush" Color="#E4E0D8" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#344F3D" />
+    <SolidColorBrush x:Key="AccentSoftBrush" Color="#DDE8DF" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#42654D" />
+
+    <x:Double x:Key="Space4">4</x:Double>
+    <x:Double x:Key="Space8">8</x:Double>
+    <x:Double x:Key="Space12">12</x:Double>
+    <x:Double x:Key="Space16">16</x:Double>
+    <x:Double x:Key="Space24">24</x:Double>
+    <x:Double x:Key="Space32">32</x:Double>
+    <x:Double x:Key="Space48">48</x:Double>
+    <x:Double x:Key="Radius8">8</x:Double>
+    <x:Double x:Key="Radius12">12</x:Double>
+
+    <Thickness x:Key="Pad8">8</Thickness>
+    <Thickness x:Key="Pad16">16</Thickness>
+    <Thickness x:Key="Pad24">24</Thickness>
+</ResourceDictionary>

@@ -199,6 +199,60 @@ namespace MoonBooks.Data.Migrations
                     b.ToTable("ReadingStates", (string)null);
                 });
 
+            modelBuilder.Entity("MoonBooks.Core.Domain.RemoteFileState", b =>
+                {
+                    b.Property<string>("Path")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ETag")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LocalHash")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("ModifiedUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SyncedAtUtc")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Path");
+
+                    b.ToTable("RemoteFileStates", (string)null);
+                });
+
+            modelBuilder.Entity("MoonBooks.Core.Domain.SyncQueueItem", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long?>("BookId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Kind")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastError")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("NextAttemptUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Payload")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NextAttemptUtc");
+
+                    b.ToTable("SyncQueue", (string)null);
+                });
+
             modelBuilder.Entity("MoonBooks.Core.Domain.BookAuthor", b =>
                 {
                     b.HasOne("MoonBooks.Core.Domain.Author", "Author")

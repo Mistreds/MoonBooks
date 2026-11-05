@@ -1,0 +1,20 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="MoonBooks.Views.ImportConflictWindow"
+        Title="Файл уже есть"
+        Width="460"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+    <StackPanel Margin="24" Spacing="14">
+        <TextBlock Text="Такое имя уже занято другой книгой" FontSize="18" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock x:Name="FileNameText" FontWeight="SemiBold" TextWrapping="Wrap" />
+        <TextBlock TextWrapping="Wrap"
+                   Text="Копия с другим именем не будет синхронизироваться с Moon+, пока имена файлов не совпадут." />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+            <Button Content="Пропустить" Click="Skip_OnClick" />
+            <Button Content="Оставить оба" Click="KeepBoth_OnClick" />
+            <Button Classes="primary" Content="Заменить" Click="Replace_OnClick" />
+        </StackPanel>
+    </StackPanel>
+</Window>

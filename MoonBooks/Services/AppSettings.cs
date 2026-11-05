@@ -53,7 +53,7 @@ public sealed class ReaderSettings
     public bool Hyphenation { get; set; }
     public bool PageAnimation { get; set; } = true;
     public bool ScrollMode { get; set; }
-    public string FontFamily { get; set; } = "PT Serif";
+    public string FontFamily { get; set; } = "Times New Roman";
     public bool Bionic { get; set; }
 
     public double LineHeightFactor => LineSpacing switch

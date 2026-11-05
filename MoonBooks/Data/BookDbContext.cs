@@ -16,6 +16,8 @@ public class BookDbContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<BookCategory> BookCategories => Set<BookCategory>();
     public DbSet<ReadingState> ReadingStates => Set<ReadingState>();
+    public DbSet<SyncQueueItem> SyncQueue => Set<SyncQueueItem>();
+    public DbSet<RemoteFileState> RemoteFileStates => Set<RemoteFileState>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -87,6 +89,22 @@ public class BookDbContext : DbContext
             entity.ToTable("ReadingStates");
             entity.HasKey(state => state.BookId);
             entity.Property(state => state.Status).HasConversion<int>();
+        });
+
+        modelBuilder.Entity<SyncQueueItem>(entity =>
+        {
+            entity.ToTable("SyncQueue");
+            entity.HasKey(item => item.Id);
+            entity.Property(item => item.Kind).HasConversion<int>();
+            entity.Property(item => item.Payload).IsRequired();
+            entity.HasIndex(item => item.NextAttemptUtc);
+        });
+
+        modelBuilder.Entity<RemoteFileState>(entity =>
+        {
+            entity.ToTable("RemoteFileStates");
+            entity.HasKey(state => state.Path);
+            entity.Property(state => state.Path).IsRequired();
         });
     }
 }

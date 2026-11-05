@@ -69,10 +69,31 @@
                 <Button Classes="primary" Content="Сохранить чтение" Command="{Binding SaveReaderCommand}" HorizontalAlignment="Left" />
             </StackPanel>
 
-            <StackPanel Spacing="8">
+            <StackPanel Spacing="12">
                 <TextBlock Text="Синхронизация" Classes="h2" />
-                <TextBlock Classes="caption" TextWrapping="Wrap"
-                           Text="Раздел подключения появится вместе с синхронизацией. Пока здесь можно только выбрать, следить ли за папкой." />
+                <TextBlock Classes="caption" Text="{Binding SyncHint}" TextWrapping="Wrap" />
+                <ComboBox SelectedItem="{Binding SyncProvider}" HorizontalAlignment="Left" MinWidth="220">
+                    <svc:SyncProviderKind>None</svc:SyncProviderKind>
+                    <svc:SyncProviderKind>WebDav</svc:SyncProviderKind>
+                    <svc:SyncProviderKind>GoogleDrive</svc:SyncProviderKind>
+                </ComboBox>
+                <ComboBox SelectedItem="{Binding SyncMode}" HorizontalAlignment="Left" MinWidth="220">
+                    <svc:SyncMode>ReadingStatus</svc:SyncMode>
+                    <svc:SyncMode>StatusAndBooks</svc:SyncMode>
+                </ComboBox>
+                <TextBox Text="{Binding WebDavUrl}" PlaceholderText="Адрес WebDAV" />
+                <TextBox Text="{Binding WebDavUser}" PlaceholderText="Логин WebDAV" />
+                <TextBox Text="{Binding WebDavPassword}" PlaceholderText="Пароль WebDAV" PasswordChar="•" />
+                <TextBox Text="{Binding GoogleClientId}" PlaceholderText="Google client id" />
+                <TextBox Text="{Binding GoogleClientSecret}" PlaceholderText="Google client secret" PasswordChar="•" />
+                <TextBox Text="{Binding GoogleDriveFolderId}" PlaceholderText="Id папки Google Drive" />
+                <TextBox Text="{Binding BooksFolder}" PlaceholderText="Папка книг Moon+, по умолчанию Books" />
+                <NumericUpDown Minimum="1" Maximum="180" Value="{Binding SyncInterval}" HorizontalAlignment="Left" Width="120" />
+                <CheckBox Content="Автоматически принимать чужую позицию" IsChecked="{Binding AutoAccept}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Classes="primary" Content="Сохранить синхронизацию" Command="{Binding SaveSyncCommand}" />
+                    <Button Content="Проверить соединение" Command="{Binding TestSyncCommand}" />
+                </StackPanel>
             </StackPanel>
 
             <TextBlock Text="{Binding Status}" TextWrapping="Wrap" />

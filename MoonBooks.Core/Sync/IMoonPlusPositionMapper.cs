@@ -26,7 +26,12 @@ public sealed class MoonPlusPositionMapper : IMoonPlusPositionMapper
     public BookPosition ToBookPosition(MoonPlusPosition remote, Book book, BookContent? content)
     {
         if (content is null || content.Chapters.Count == 0)
-            return FromPercent(remote.Percent, book.TotalChars, content);
+        {
+            var knownChapters = content?.Chapters.Count ?? book.ChapterCount;
+            if (remote.SplitIndex == 0 && (knownChapters <= 0 || remote.ChapterIndex < knownChapters))
+                return new BookPosition(Math.Max(0, remote.ChapterIndex), Math.Max(0, remote.PositionInChapter));
+            return FromPercent(remote.Percent, content?.TotalChars ?? book.TotalChars, content);
+        }
 
         if (remote.ChapterIndex < 0 || remote.ChapterIndex >= content.Chapters.Count)
             return FromPercent(remote.Percent, content.TotalChars, content);

@@ -7,7 +7,7 @@ using ReactiveUI;
 
 namespace MoonBooks.ViewModels;
 
-public sealed class SettingsViewModel : ViewModelBase
+public sealed partial class SettingsViewModel : ViewModelBase
 {
     private readonly ISettingsService _settings;
     private readonly ILibraryFolderService _libraryFolder;

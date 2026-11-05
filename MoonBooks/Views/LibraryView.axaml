@@ -1,246 +1,162 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:MoonBooks.ViewModels"
-             xmlns:model="using:MoonBooks.Models"
-             mc:Ignorable="d"
-             d:DesignWidth="1440"
-             d:DesignHeight="852"
+             xmlns:svc="using:MoonBooks.Services"
+             xmlns:views="using:MoonBooks.Views"
              x:Class="MoonBooks.Views.LibraryView"
              x:Name="Root"
-             x:DataType="vm:MainViewModel"
-             x:CompileBindings="False">
-
-    <Grid ColumnDefinitions="244,*">
-        <Border Grid.Column="0"
-                Background="{DynamicResource SurfaceBrush}"
-                BorderBrush="{DynamicResource HairlineBrush}"
-                BorderThickness="0,0,1,0">
-            <Grid RowDefinitions="Auto,*,Auto" Margin="18,22">
-                <StackPanel Spacing="5" Margin="8,0,8,24">
-                    <TextBlock Text="Моя библиотека" FontSize="20" FontWeight="Bold" />
-                    <TextBlock Text="8 книг · 3 читаются сейчас"
-                               Foreground="{DynamicResource MutedInkBrush}" FontSize="12" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Spacing="5">
-                    <TextBlock Text="ПОЛКИ" Margin="14,0,0,8" FontSize="10" FontWeight="Bold"
-                               LetterSpacing="1.4" Foreground="{DynamicResource MutedInkBrush}" />
-                    <ItemsControl ItemsSource="{Binding Shelves}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="model:ShelfItem">
-                                <Button Classes="nav"
-                                        Command="{Binding DataContext.SelectShelfCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}">
-                                    <Grid ColumnDefinitions="*,Auto">
-                                        <TextBlock Text="{Binding Name}" />
-                                        <Border Grid.Column="1" Background="{DynamicResource SurfaceMutedBrush}"
-                                                CornerRadius="10" Padding="7,2">
-                                            <TextBlock Text="{Binding Count}" FontSize="11"
-                                                       Foreground="{DynamicResource MutedInkBrush}" />
-                                        </Border>
-                                    </Grid>
-                                </Button>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-
-                    <Border Height="1" Background="{DynamicResource HairlineBrush}" Margin="12,16" />
-
-                    <Button Classes="nav">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="＋" FontSize="18" Foreground="{DynamicResource AccentBrush}" />
-                            <TextBlock Text="Новая полка" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
-                    <Button Classes="nav">
-                        <StackPanel Orientation="Horizontal" Spacing="12">
-                            <TextBlock Text="⚙" FontSize="16" Foreground="{DynamicResource MutedInkBrush}" />
-                            <TextBlock Text="Настройки" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Button>
-                </StackPanel>
-
-                <Border Grid.Row="2" Background="{DynamicResource AccentSoftBrush}"
-                        CornerRadius="16" Padding="14">
-                    <Grid ColumnDefinitions="36,*" RowDefinitions="Auto,Auto">
-                        <Border Width="32" Height="32" CornerRadius="16" Background="{DynamicResource AccentBrush}">
-                            <TextBlock Text="{Binding SyncGlyph}" Foreground="White" FontSize="16"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
-                        </Border>
-                        <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                            <TextBlock Text="{Binding SyncTitle}" FontSize="12" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding SyncSubtitle}" FontSize="10" TextWrapping="Wrap"
-                                       Foreground="{DynamicResource MutedInkBrush}" Margin="0,2,0,0" />
-                        </StackPanel>
-                        <Button Grid.Row="1" Grid.ColumnSpan="2" Classes="primary"
-                                Margin="0,12,0,0" Padding="10,8"
-                                Command="{Binding SyncCommand}" Content="Синхронизировать" />
-                    </Grid>
-                </Border>
-            </Grid>
-        </Border>
-
-        <ScrollViewer Grid.Column="1">
-            <StackPanel Margin="44,34,44,52" Spacing="34">
-                <Grid ColumnDefinitions="*,360">
-                    <StackPanel>
-                        <TextBlock Text="Добрый вечер" FontSize="12" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource WarmBrush}" />
-                        <TextBlock Text="Что будем читать?" FontSize="34" FontWeight="SemiBold"
-                                   LetterSpacing="-0.8" Margin="0,3,0,0" />
+             x:DataType="vm:LibraryViewModel"
+             DragDrop.AllowDrop="True">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel Margin="32,28,32,48" Spacing="28" SizeChanged="Host_OnSizeChanged">
+                <Grid ColumnDefinitions="*,280">
+                    <StackPanel Spacing="4">
+                        <TextBlock Text="Библиотека" Classes="h1" />
+                        <TextBlock Text="{Binding Summary}" Classes="caption" />
                     </StackPanel>
-                    <TextBox Grid.Column="1" Classes="search"
-                             PlaceholderText="Поиск по названию, автору или жанру"
-                             Text="{Binding SearchText, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <TextBox Grid.Column="1" Classes="search" PlaceholderText="Поиск" Text="{Binding SearchText}" VerticalAlignment="Center" />
                 </Grid>
 
-                <StackPanel Spacing="15">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <StackPanel>
-                            <TextBlock Text="Продолжить чтение" FontSize="21" FontWeight="SemiBold" />
-                            <TextBlock Text="Вернитесь туда, где остановились"
-                                       Foreground="{DynamicResource MutedInkBrush}" FontSize="12" Margin="0,3,0,0" />
-                        </StackPanel>
-                        <Button Grid.Column="1" Content="Смотреть все  →" Foreground="{DynamicResource AccentBrush}" />
-                    </Grid>
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <Button Classes="primary" Content="Добавить файлы" Command="{Binding ImportFilesCommand}" />
+                    <Button Content="Добавить папку" Command="{Binding ImportFolderCommand}" />
+                    <Button Content="Полки" Command="{Binding SetViewModeCommand}" CommandParameter="{x:Static svc:LibraryViewMode.Shelves}" />
+                    <Button Content="Сетка" Command="{Binding SetViewModeCommand}" CommandParameter="{x:Static svc:LibraryViewMode.Grid}" />
+                    <Button Content="Список" Command="{Binding SetViewModeCommand}" CommandParameter="{x:Static svc:LibraryViewMode.List}" />
+                </StackPanel>
+                <TextBlock Text="{Binding Status}" Classes="caption" />
 
+                <StackPanel Spacing="12" IsVisible="{Binding ShowContinue}">
+                    <TextBlock Text="Продолжить чтение" Classes="h2" />
                     <ItemsControl ItemsSource="{Binding ContinueReading}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <UniformGrid Rows="1" />
+                                <StackPanel Orientation="Horizontal" Spacing="16" />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate x:DataType="model:BookItem">
-                                <Button Classes="bookCard" Margin="0,0,14,0"
-                                        Command="{Binding DataContext.OpenBookCommand, ElementName=Root}"
-                                        CommandParameter="{Binding}">
-                                    <Border Background="{DynamicResource SurfaceBrush}" CornerRadius="18"
-                                            Padding="13" BorderBrush="{DynamicResource HairlineBrush}"
-                                            BorderThickness="1">
-                                        <Grid ColumnDefinitions="84,*" ColumnSpacing="15">
-                                            <Border Width="84" Height="118" CornerRadius="10"
-                                                    Background="{Binding CoverStart}" ClipToBounds="True">
-                                                <Grid>
-                                                    <Border Width="70" Height="120" Background="{Binding CoverEnd}"
-                                                            Opacity=".34" HorizontalAlignment="Right"
-                                                            RenderTransform="rotate(24deg)" />
-                                                    <TextBlock Text="{Binding CoverMark}" Foreground="White"
-                                                               FontFamily="Georgia" FontSize="34" FontWeight="Bold"
-                                                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </Grid>
-                                            </Border>
-                                            <Grid Grid.Column="1" RowDefinitions="Auto,Auto,*,Auto">
-                                                <Border HorizontalAlignment="Left" Background="{DynamicResource SurfaceMutedBrush}"
-                                                        CornerRadius="8" Padding="7,3">
-                                                    <TextBlock Text="{Binding Format}" FontSize="9" FontWeight="Bold" />
-                                                </Border>
-                                                <StackPanel Grid.Row="1" Margin="0,10,0,0">
-                                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold"
-                                                               FontSize="15" TextTrimming="CharacterEllipsis" />
-                                                    <TextBlock Text="{Binding Author}" FontSize="11" Margin="0,3,0,0"
-                                                               Foreground="{DynamicResource MutedInkBrush}" />
-                                                </StackPanel>
-                                                <StackPanel Grid.Row="3" Spacing="6">
-                                                    <Grid ColumnDefinitions="*,Auto">
-                                                        <TextBlock Text="{Binding ProgressLabel}" FontSize="10"
-                                                                   Foreground="{DynamicResource MutedInkBrush}" />
-                                                        <TextBlock Grid.Column="1" Text="›" FontSize="18"
-                                                                   Foreground="{DynamicResource AccentBrush}" />
-                                                    </Grid>
-                                                    <ProgressBar Minimum="0" Maximum="1" Value="{Binding Progress}"
-                                                                 Height="4" Foreground="{DynamicResource AccentBrush}" />
-                                                </StackPanel>
-                                            </Grid>
-                                        </Grid>
-                                    </Border>
+                            <DataTemplate x:DataType="vm:BookCardViewModel">
+                                <Button Command="{Binding OpenCommand}" Background="Transparent" Padding="0">
+                                    <StackPanel Spacing="8" Width="148">
+                                        <views:CoverView />
+                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" MaxLines="2" TextWrapping="Wrap" />
+                                        <TextBlock Text="{Binding ProgressLabel}" Classes="caption" />
+                                    </StackPanel>
                                 </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
 
-                <StackPanel Spacing="16">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <StackPanel>
-                            <TextBlock Text="{Binding SelectedShelf}" FontSize="21" FontWeight="SemiBold" />
-                            <TextBlock Text="Ваша коллекция в одном месте"
-                                       Foreground="{DynamicResource MutedInkBrush}" FontSize="12" Margin="0,3,0,0" />
-                        </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="5">
-                            <Button Classes="icon" Content="▦" />
-                            <Button Classes="icon" Content="☰" Foreground="{DynamicResource MutedInkBrush}" />
-                        </StackPanel>
-                    </Grid>
-
-                    <Grid>
-                        <ItemsControl ItemsSource="{Binding Books}" IsVisible="{Binding HasBooks}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="model:BookItem">
-                                    <Button Classes="bookCard" Width="176" Margin="0,0,24,30"
-                                            Command="{Binding DataContext.OpenBookCommand, ElementName=Root}"
-                                            CommandParameter="{Binding}">
-                                        <StackPanel Spacing="11">
-                                            <Border Height="242" CornerRadius="13" Background="{Binding CoverStart}"
-                                                    ClipToBounds="True">
-                                                <Grid>
-                                                    <Border Width="155" Height="285" Background="{Binding CoverEnd}"
-                                                            Opacity=".36" HorizontalAlignment="Right"
-                                                            RenderTransform="rotate(23deg)" />
-                                                    <StackPanel Margin="18,25" VerticalAlignment="Center" Spacing="13">
-                                                        <Border Height="1" Background="White" Opacity=".45" />
-                                                        <TextBlock Text="{Binding CoverMark}" Foreground="White"
-                                                                   FontFamily="Georgia" FontSize="48" FontWeight="Bold"
-                                                                   HorizontalAlignment="Center" />
-                                                        <TextBlock Text="{Binding Category}" Foreground="White"
-                                                                   Opacity=".75" FontSize="9" LetterSpacing="1"
-                                                                   TextAlignment="Center" TextWrapping="Wrap" />
-                                                        <Border Height="1" Background="White" Opacity=".45" />
+                <StackPanel Spacing="20" IsVisible="{Binding IsShelves}">
+                    <ItemsControl ItemsSource="{Binding ShelfRows}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ShelfRowViewModel">
+                                <StackPanel Spacing="12" Margin="0,0,0,8">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Text="{Binding Name}" Classes="h2" />
+                                        <Button Grid.Column="1" Content="Показать все" IsVisible="{Binding HasMore}"
+                                                Command="{Binding #Root.((vm:LibraryViewModel)DataContext).ShowAllCommand}"
+                                                CommandParameter="{Binding}" />
+                                    </Grid>
+                                    <ItemsControl ItemsSource="{Binding Books}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate x:DataType="vm:BookCardViewModel">
+                                                <Button Margin="0,0,22,8" Padding="0" Background="Transparent" Command="{Binding OpenCommand}">
+                                                    <Button.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="Категории…" Command="{Binding CategoriesCommand}" />
+                                                            <MenuItem Header="В избранное" Command="{Binding FavoriteCommand}" />
+                                                            <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                                                        </ContextMenu>
+                                                    </Button.ContextMenu>
+                                                    <StackPanel Width="148" Spacing="8">
+                                                        <views:CoverView />
+                                                        <TextBlock Text="{Binding Title}" FontWeight="SemiBold" MaxLines="2" TextWrapping="Wrap" />
+                                                        <TextBlock Text="{Binding Author}" Classes="caption" TextTrimming="CharacterEllipsis" />
                                                     </StackPanel>
-                                                    <Border HorizontalAlignment="Right" VerticalAlignment="Top"
-                                                            Margin="10" CornerRadius="8" Padding="7,4"
-                                                            Background="#CCFFFFFF">
-                                                        <TextBlock Text="{Binding Format}" FontSize="9" FontWeight="Bold" />
-                                                    </Border>
-                                                    <ProgressBar VerticalAlignment="Bottom" Height="5"
-                                                                 Minimum="0" Maximum="1" Value="{Binding Progress}"
-                                                                 Foreground="#FFF3DD" Background="#35FFFFFF" />
-                                                </Grid>
-                                            </Border>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold"
-                                                           MaxLines="2" TextWrapping="Wrap" />
-                                                <TextBlock Text="{Binding Author}" FontSize="11" Margin="0,4,0,0"
-                                                           Foreground="{DynamicResource MutedInkBrush}"
-                                                           TextTrimming="CharacterEllipsis" />
-                                            </StackPanel>
-                                        </StackPanel>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
 
-                        <Border IsVisible="{Binding IsLibraryEmpty}" MinHeight="230"
-                                Background="{DynamicResource SurfaceBrush}" CornerRadius="18"
-                                BorderBrush="{DynamicResource HairlineBrush}" BorderThickness="1">
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="8">
-                                <TextBlock Text="⌕" FontSize="28" HorizontalAlignment="Center"
-                                           Foreground="{DynamicResource MutedInkBrush}" />
-                                <TextBlock Text="Ничего не нашлось" FontSize="16" FontWeight="SemiBold" />
-                                <TextBlock Text="Попробуйте другой запрос или выберите все книги"
-                                           FontSize="11" Foreground="{DynamicResource MutedInkBrush}" />
-                            </StackPanel>
-                        </Border>
-                    </Grid>
+                <ItemsControl ItemsSource="{Binding Books}" IsVisible="{Binding IsGrid}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:BookCardViewModel">
+                            <Button Margin="0,0,22,20" Padding="0" Background="Transparent" Command="{Binding OpenCommand}">
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Категории…" Command="{Binding CategoriesCommand}" />
+                                        <MenuItem Header="В избранное" Command="{Binding FavoriteCommand}" />
+                                        <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                                <StackPanel Width="148" Spacing="8">
+                                    <views:CoverView />
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" MaxLines="2" TextWrapping="Wrap" />
+                                    <TextBlock Text="{Binding Author}" Classes="caption" TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ListBox ItemsSource="{Binding Books}" IsVisible="{Binding IsList}" Background="Transparent" BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:BookCardViewModel">
+                            <Grid ColumnDefinitions="54,*,120,70" Margin="0,6">
+                                <Border Width="42" Height="60" CornerRadius="6" Background="{Binding PlaceholderBrush}" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="12,0">
+                                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Author}" Classes="caption" />
+                                </StackPanel>
+                                <TextBlock Grid.Column="2" Text="{Binding ProgressLabel}" VerticalAlignment="Center" Classes="caption" />
+                                <TextBlock Grid.Column="3" Text="{Binding Format}" VerticalAlignment="Center" />
+                                <Grid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Читать" Command="{Binding OpenCommand}" />
+                                        <MenuItem Header="Категории…" Command="{Binding CategoriesCommand}" />
+                                        <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                                    </ContextMenu>
+                                </Grid.ContextMenu>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <StackPanel IsVisible="{Binding IsLibraryEmpty}" Spacing="12" HorizontalAlignment="Center" Margin="0,48">
+                    <TextBlock Text="Библиотека пуста" Classes="h2" HorizontalAlignment="Center" />
+                    <TextBlock Text="Добавьте FB2 или EPUB" Classes="caption" HorizontalAlignment="Center" />
+                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                        <Button Classes="primary" Content="Добавить файлы" Command="{Binding ImportFilesCommand}" />
+                        <Button Content="Добавить папку" Command="{Binding ImportFolderCommand}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel IsVisible="{Binding IsSearchMiss}" Spacing="6" HorizontalAlignment="Center" Margin="0,32">
+                    <TextBlock Text="Ничего не нашлось" Classes="h2" />
+                    <TextBlock Text="Измените запрос или полку" Classes="caption" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
+
+        <Border IsVisible="{Binding IsDropTarget}" Background="#F2FFFEFC" IsHitTestVisible="False">
+            <TextBlock Text="Отпустите, чтобы добавить" Classes="h2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
     </Grid>
 </UserControl>
