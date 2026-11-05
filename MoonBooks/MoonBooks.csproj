@@ -3,11 +3,19 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Styles\**"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MoonBooks.Core\MoonBooks.Core.csproj" />
+        <ProjectReference Include="..\MoonBooks.Fb2Parser\MoonBooks.Fb2Parser.csproj" />
+        <ProjectReference Include="..\MoonBooks.EpubParser\MoonBooks.EpubParser.csproj" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,10 +27,20 @@
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Fb2.Document" Version="2.5.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+        <PackageReference Include="SkiaSharp" Version="3.119.4" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
+        <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.0" />
+        <PackageReference Include="Google.Apis.Auth" Version="1.78.0" />
+        <PackageReference Include="Google.Apis.Drive.v3" Version="1.78.0.4313" />
+        <PackageReference Include="NHyphenator" Version="2.0.0" />
         <PackageReference Include="ReactiveUI.Avalonia" Version="12.0.3"/>
-        <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />
+        <PackageReference Include="ReactiveUI.SourceGenerators" Version="2.4.1" />
+        <PackageReference Include="WebDav.Client" Version="2.9.0" />
     </ItemGroup>
 </Project>

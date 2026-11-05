@@ -1,0 +1,27 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary x:Key="ReaderThemeWhite">
+        <SolidColorBrush x:Key="ReaderCanvasBrush" Color="#F3F1EE" />
+        <SolidColorBrush x:Key="ReaderPageBrush" Color="#FFFEFC" />
+        <SolidColorBrush x:Key="ReaderInkBrush" Color="#1C1B19" />
+        <SolidColorBrush x:Key="ReaderMutedBrush" Color="#6E6A64" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="ReaderThemeSepia">
+        <SolidColorBrush x:Key="ReaderCanvasBrush" Color="#E7E0D4" />
+        <SolidColorBrush x:Key="ReaderPageBrush" Color="#F6F0E6" />
+        <SolidColorBrush x:Key="ReaderInkBrush" Color="#2C2822" />
+        <SolidColorBrush x:Key="ReaderMutedBrush" Color="#7A7268" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="ReaderThemeGray">
+        <SolidColorBrush x:Key="ReaderCanvasBrush" Color="#D9D9D6" />
+        <SolidColorBrush x:Key="ReaderPageBrush" Color="#E8E8E6" />
+        <SolidColorBrush x:Key="ReaderInkBrush" Color="#222322" />
+        <SolidColorBrush x:Key="ReaderMutedBrush" Color="#666864" />
+    </ResourceDictionary>
+    <ResourceDictionary x:Key="ReaderThemeBlack">
+        <SolidColorBrush x:Key="ReaderCanvasBrush" Color="#111311" />
+        <SolidColorBrush x:Key="ReaderPageBrush" Color="#1A1C1A" />
+        <SolidColorBrush x:Key="ReaderInkBrush" Color="#E6E4DE" />
+        <SolidColorBrush x:Key="ReaderMutedBrush" Color="#9A9B96" />
+    </ResourceDictionary>
+</ResourceDictionary>
