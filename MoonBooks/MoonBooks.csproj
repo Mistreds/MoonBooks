@@ -11,6 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\MoonBooks.Core\MoonBooks.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Avalonia" Version="12.1.1"/>
         <PackageReference Include="Avalonia.Desktop" Version="12.1.1"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.1"/>
@@ -21,6 +25,11 @@
         </PackageReference>
         <PackageReference Include="Fb2.Document" Version="2.5.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.11" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.12" />
         <PackageReference Include="ReactiveUI.Avalonia" Version="12.0.3"/>
         <PackageReference Include="ReactiveUI.Fody" Version="19.5.41" />

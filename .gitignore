@@ -58,6 +58,11 @@ dlldata.c
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+
 # .NET Core
 project.lock.json
 project.fragment.lock.json
