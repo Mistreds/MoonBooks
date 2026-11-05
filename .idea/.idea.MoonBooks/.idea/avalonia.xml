@@ -3,6 +3,7 @@
   <component name="AvaloniaProject">
     <option name="projectPerEditor">
       <map>
+        <entry key="MoonBooks/App.axaml" value="MoonBooks/MoonBooks.csproj" />
         <entry key="MoonBooks/Views/LibraryView.axaml" value="MoonBooks/MoonBooks.csproj" />
         <entry key="MoonBooks/Views/MainWindow.axaml" value="MoonBooks/MoonBooks.csproj" />
         <entry key="MoonBooks/Views/ReaderView.axaml" value="MoonBooks/MoonBooks.csproj" />
