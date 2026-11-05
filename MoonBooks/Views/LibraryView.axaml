@@ -155,7 +155,7 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Border IsVisible="{Binding IsDropTarget}" Background="#F2FFFEFC" IsHitTestVisible="False">
+        <Border IsVisible="{Binding IsDropTarget}" Background="{DynamicResource SurfaceBrush}" Opacity="0.94" IsHitTestVisible="False">
             <TextBlock Text="Отпустите, чтобы добавить" Classes="h2" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Border>
     </Grid>

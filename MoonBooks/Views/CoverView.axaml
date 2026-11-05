@@ -14,7 +14,7 @@
                 <TextBlock Text="{Binding Author}" Foreground="White" Opacity="0.8" FontSize="12" TextWrapping="Wrap" MaxLines="2" />
             </StackPanel>
         </Border>
-        <Border IsVisible="{Binding IsMissing}" Background="#AA242722" CornerRadius="8">
+        <Border IsVisible="{Binding IsMissing}" Background="{DynamicResource InkBrush}" Opacity="0.7" CornerRadius="8">
             <TextBlock Text="Нет файла" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
         </Border>
     </Grid>
